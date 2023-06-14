@@ -1,6 +1,12 @@
 # indexed-png-stats
 Python library that inspects indexed PNG files.
 
+## Installation
+
+```
+pip install indexed-png-stats
+```
+
 ## Command-line
 
 ```
