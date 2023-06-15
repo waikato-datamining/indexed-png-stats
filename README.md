@@ -10,14 +10,14 @@ pip install indexed-png-stats
 ## Command-line
 
 ```
-usage: indexed-png-stats [-h] -d DIR [-r] [-t {summary,per-file}]
+usage: indexed-png-stats [-h] -d DIR [DIR ...] [-r] [-t {summary,per-file}]
                          [-f {plain-text,json}] [-o FILE] [-v]
 
 Generates statistics from indexed PNG files.
 
 optional arguments:
   -h, --help            show this help message and exit
-  -d DIR, --image_dir DIR
+  -d DIR [DIR ...], --image_dir DIR [DIR ...]
                         the directory with the PNG files (default: None)
   -r, --recursive       whether to scan the directory recursively (default:
                         False)

@@ -25,14 +25,14 @@ OUTPUT_FORMATS = [
 SUMMARY_ENTRY = "all"
 
 
-def collect(stats, image_dir, recursive=False, stats_type=STATS_TYPE_SUMMARY, verbose=False):
+def collect(stats, image_dirs, recursive=False, stats_type=STATS_TYPE_SUMMARY, verbose=False):
     """
     Collects the statistics from the indexed PNG files.
 
     :param stats: the stats to append to
     :type stats: dict
-    :param image_dir: the directory to look for PNG files
-    :type image_dir: str
+    :param image_dirs: the directory to look for PNG files
+    :type image_dirs: str
     :param recursive: whether to search recursively for PNG files
     :type recursive: bool
     :param stats_type: the type of stats to generate
@@ -40,61 +40,63 @@ def collect(stats, image_dir, recursive=False, stats_type=STATS_TYPE_SUMMARY, ve
     :param verbose: whether to output some logging information
     :type verbose: bool
     """
-    if verbose:
-        print("Entering: %s" % image_dir)
-    for f in os.listdir(image_dir):
-        full = os.path.join(image_dir, f)
+    for image_dir in image_dirs:
+        if verbose:
+            print("Entering: %s" % image_dir)
+        for f in os.listdir(image_dir):
+            full = os.path.join(image_dir, f)
 
-        # recurse?
-        if recursive and os.path.isdir(full):
-            collect(stats, full, recursive=True, stats_type=stats_type)
-            print("Back in: %s" % image_dir)
+            # recurse?
+            if recursive and os.path.isdir(full):
+                collect(stats, full, recursive=True, stats_type=stats_type)
+                print("Back in: %s" % image_dir)
 
-        # png?
-        if f.lower().endswith(".png"):
-            if verbose:
-                print("%s" % f)
-
-            # indexed?
-            try:
-                img = Image.open(full)
-                p = img.getpalette()
-            except:
-                p = None
-            if p is None:
+            # png?
+            if f.lower().endswith(".png"):
                 if verbose:
-                    print("  no palette information")
-                continue
+                    print("%s" % f)
 
-            # get stats
-            img = np.array(img)
-            unique, counts = np.unique(img, return_counts=True)
+                # indexed?
+                try:
+                    img = Image.open(full)
+                    p = img.getpalette()
+                except:
+                    img = None
+                    p = None
+                if p is None:
+                    if verbose:
+                        print("  no palette information")
+                    continue
 
-            # summary
-            if stats_type == STATS_TYPE_SUMMARY:
-                for i in range(len(unique)):
-                    v = unique[i]
-                    c = counts[i]
-                    l = str(v)
-                    if len(stats) == 0:
-                        stats[SUMMARY_ENTRY] = dict()
-                    if l not in stats[SUMMARY_ENTRY]:
-                        stats[SUMMARY_ENTRY][l] = 0
-                    stats[SUMMARY_ENTRY][l] += int(c)
-                pass
+                # get stats
+                img = np.array(img)
+                unique, counts = np.unique(img, return_counts=True)
 
-            # per file
-            elif stats_type == STATS_TYPE_PERFILE:
-                stats[full] = dict()
-                for i in range(len(unique)):
-                    v = unique[i]
-                    c = counts[i]
-                    l = str(v)
-                    stats[full][l] = int(c)
+                # summary
+                if stats_type == STATS_TYPE_SUMMARY:
+                    for i in range(len(unique)):
+                        v = unique[i]
+                        c = counts[i]
+                        l = str(v)
+                        if len(stats) == 0:
+                            stats[SUMMARY_ENTRY] = dict()
+                        if l not in stats[SUMMARY_ENTRY]:
+                            stats[SUMMARY_ENTRY][l] = 0
+                        stats[SUMMARY_ENTRY][l] += int(c)
+                    pass
 
-            # unsupported
-            else:
-                raise Exception("Unsupported stats type: %s" % stats_type)
+                # per file
+                elif stats_type == STATS_TYPE_PERFILE:
+                    stats[full] = dict()
+                    for i in range(len(unique)):
+                        v = unique[i]
+                        c = counts[i]
+                        l = str(v)
+                        stats[full][l] = int(c)
+
+                # unsupported
+                else:
+                    raise Exception("Unsupported stats type: %s" % stats_type)
 
 
 def output_stats(stats, output_format=OUTPUT_FORMAT_PLAINTEXT, output_file=None):
@@ -143,7 +145,7 @@ def main(args=None):
         description="Generates statistics from indexed PNG files.",
         prog="indexed-png-stats",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("-d", "--image_dir", metavar="DIR", help="the directory with the PNG files", required=True)
+    parser.add_argument("-d", "--image_dir", metavar="DIR", nargs="+", help="the directory with the PNG files", required=True)
     parser.add_argument("-r", "--recursive", action="store_true", help="whether to scan the directory recursively", required=False)
     parser.add_argument("-t", "--stats_type", choices=STATS_TYPES, default=STATS_TYPE_SUMMARY, help="the type of statistics to generate", required=False)
     parser.add_argument("-f", "--output_format", choices=OUTPUT_FORMATS, default=OUTPUT_FORMAT_PLAINTEXT, help="how to present the statistics", required=False)
