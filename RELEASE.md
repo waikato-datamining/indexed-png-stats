@@ -9,11 +9,11 @@ Preparation:
 Commands for releasing on pypi.org (requires twine >= 1.8.0):
 
 ```
-  find -name "*~" -delete
-  rm dist/*
-  python3 setup.py clean
-  python3 setup.py sdist
-  twine upload dist/*
+find -name "*~" -delete
+rm dist/*
+python3 setup.py clean
+python3 setup.py sdist
+twine upload dist/*
 ```
 
 
