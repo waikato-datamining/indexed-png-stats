@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.0.3 (????-??-??)
+0.0.3 (2023-06-23)
 ------------------
 
 - fixed recursive analysis, no longer iterates through characters of path,
