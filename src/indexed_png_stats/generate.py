@@ -32,7 +32,7 @@ def collect(stats, image_dirs, recursive=False, stats_type=STATS_TYPE_SUMMARY, v
     :param stats: the stats to append to
     :type stats: dict
     :param image_dirs: the directory to look for PNG files
-    :type image_dirs: str
+    :type image_dirs: list
     :param recursive: whether to search recursively for PNG files
     :type recursive: bool
     :param stats_type: the type of stats to generate
@@ -44,11 +44,14 @@ def collect(stats, image_dirs, recursive=False, stats_type=STATS_TYPE_SUMMARY, v
         if verbose:
             print("Entering: %s" % image_dir)
         for f in os.listdir(image_dir):
+            if f == "." or f == "..":
+                continue
+
             full = os.path.join(image_dir, f)
 
             # recurse?
             if recursive and os.path.isdir(full):
-                collect(stats, full, recursive=True, stats_type=stats_type)
+                collect(stats, [full], recursive=True, stats_type=stats_type, verbose=verbose)
                 print("Back in: %s" % image_dir)
 
             # png?
