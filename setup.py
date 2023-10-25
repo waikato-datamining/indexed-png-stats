@@ -14,7 +14,7 @@ def _read(f) -> bytes:
 
 setup(
     name="indexed-png-stats",
-    description="Python library that inspects indexed PNG files.",
+    description="Python library that inspects (and can remaps) indexed PNG files.",
     long_description=(
         _read('DESCRIPTION.rst') + b'\n' +
         _read('CHANGES.rst')).decode('utf-8'),
@@ -33,9 +33,10 @@ setup(
     entry_points={
         "console_scripts": [
             "indexed-png-stats=indexed_png_stats.generate:sys_main",
+            "indexed-png-remap=indexed_png_stats.remap:sys_main",
         ]
     },
-    version="0.0.3",
+    version="0.0.4",
     author='Peter Reutemann',
     author_email='fracpete@waikato.ac.nz',
     install_requires=[

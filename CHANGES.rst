@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.0.4 (2023-10-25)
+------------------
+
+- added `indexed-png-remap` tool for remapping color palette entries
+  (eg replacing 5 with 1).
+
+
 0.0.3 (2023-06-23)
 ------------------
 
