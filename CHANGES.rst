@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.0.5 (2023-10-25)
+------------------
+
+- `--backup` option now also gets applied in recursive mode
+
+
 0.0.4 (2023-10-25)
 ------------------
 

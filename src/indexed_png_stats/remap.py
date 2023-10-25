@@ -57,7 +57,7 @@ def remap(image_dirs, mapping, recursive=False, backup=False, verbose=False):
 
             # recurse?
             if recursive and os.path.isdir(full):
-                remap([full], mapping, recursive=True, verbose=verbose)
+                remap([full], mapping, recursive=True, backup=backup, verbose=verbose)
                 print("Back in: %s" % image_dir)
 
             # png?
