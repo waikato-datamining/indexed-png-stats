@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.0.6 (2023-11-15)
+------------------
+
+- added threshold parameters `--above`/`--below` to check for large/small amount
+  of pixel annotations in images, search can be limited to specific palette
+  entries via the `--index` parameter
+
+
 0.0.5 (2023-10-25)
 ------------------
 
