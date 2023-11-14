@@ -71,3 +71,73 @@ optional arguments:
   -v, --verbose         whether to be more verbose with the processing
                         (default: False)
 ```
+
+## Examples
+
+### Inspect multiple directories
+
+Output statistics for each image in the specified directories:
+
+```bash
+indexed-png-stats \
+    --image_dir /some/where/train/ /some/where/val/ /some/where/test/ \
+    --stats_type per-file \
+    --output_format plain-text \
+    --verbose
+```
+
+### Inspect recursively
+
+Output a summary for all images below the specified directory:
+
+```bash
+indexed-png-stats \
+    --image_dir /some/where/ \
+    --recursive \
+    --stats_type summary \
+    --output_format plain-text \
+    --verbose
+```
+
+### Output files with too few annotations
+
+The following lists images that have less than 20 pixel annotations for
+any of its palette entries:
+
+```bash
+indexed-png-stats \
+    --image_dir /some/where/ \
+    --recursive \
+    --stats_type file-name-only \
+    --below 20 \
+    --output_format plain-text \
+    --verbose
+```
+
+This command only lists images that have fewer than 20 pixel annotations
+for palette entries 2 or 5:
+
+```bash
+indexed-png-stats \
+    --image_dir /some/where/ \
+    --recursive \
+    --stats_type file-name-only \
+    --below 20 \
+    --index 2 5 \
+    --output_format plain-text \
+    --verbose
+```
+
+### Remap palette entries
+
+The following fixes images, mapping palette entry 5 to 1 for all images 
+recursively, whilst creating backup files of the original images:
+
+```bash
+indexed-png-remap \
+    --image_dir /some/where/ \
+    --recursive \
+    --mapping 5:1 \
+    --verbose \
+    --backup
+```
