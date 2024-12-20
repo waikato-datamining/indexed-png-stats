@@ -13,7 +13,7 @@ def _read(f) -> bytes:
 
 
 setup(
-    name="indexed-png-stats",
+    name="indexed_png_stats",
     description="Python library that inspects (and can remaps) indexed PNG files.",
     long_description=(
         _read('DESCRIPTION.rst') + b'\n' +

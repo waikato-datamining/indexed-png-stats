@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.0.7 (????-??-??)
+------------------
+
+- switched to underscores in project name
+
+
 0.0.6 (2023-11-15)
 ------------------
 
